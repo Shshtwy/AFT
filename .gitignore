@@ -1,0 +1,7 @@
+AFT.xcodeproj/
+build/
+DerivedData/
+.DS_Store
+build-deps/
+dist/
+docs/

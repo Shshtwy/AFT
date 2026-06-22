@@ -1,0 +1,8 @@
+"applicationName" = "Android File Transfer";
+"newFolderButtonText" = "New Folder";
+"deleteButtonText" = "Delete";
+"copyStatusWindowTitle" = "Copy";
+"cancelButton" = "Cancel";
+"folderDefaultName" = "untitled folder";
+"errorConnectToDeviceTitle" = "Could not connect to device";
+"errorCopyingFileTitle" = "Could not copy file";

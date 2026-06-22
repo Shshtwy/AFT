@@ -1,0 +1,64 @@
+name: AFT
+options:
+  bundleIdPrefix: dev.aft
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_HARDENED_RUNTIME: NO
+    SWIFT_OBJC_BRIDGING_HEADER: AFT/Services/Bridge/AFT-Bridging-Header.h
+    LD_RUNPATH_SEARCH_PATHS: "@executable_path/../Frameworks"
+targets:
+  AFT:
+    type: application
+    platform: macOS
+    sources:
+      - path: AFT
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSPrincipalClass: NSApplication
+        INFOPLIST_KEY_LSMinimumSystemVersion: "13.0"
+        INFOPLIST_KEY_CFBundleDisplayName: AFT
+        CODE_SIGN_ENTITLEMENTS: AFT/App/AFT.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: dev.aft.AFT
+        LIBRARY_SEARCH_PATHS: "$(PROJECT_DIR)/AFT/Frameworks"
+        HEADER_SEARCH_PATHS:
+          - "/opt/homebrew/include"
+          - "/opt/homebrew/include/libusb-1.0"
+        OTHER_LDFLAGS: "-framework IOKit"
+    dependencies:
+      - framework: AFT/Frameworks/libmtp.dylib
+        embed: true
+        codeSign: true
+      - framework: AFT/Frameworks/libusb-1.0.0.dylib
+        embed: true
+        codeSign: true
+  AFTTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: AFTTests
+    dependencies:
+      - target: AFT
+    settings:
+      base:
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/AFT.app/Contents/MacOS/AFT"
+schemes:
+  AFT:
+    build:
+      targets:
+        AFT: all
+    run:
+      config: Debug
+    test:
+      targets:
+        - AFTTests
